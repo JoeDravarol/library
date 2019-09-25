@@ -47,3 +47,37 @@ header .container {
   border-right: 30px solid #FF4136;
   border-bottom: 30px solid transparent;
 }
+
+/* Flash error */
+.flash {
+	position: absolute;
+  top: 15px;
+	width: 100%;
+	color: #fff;
+}
+
+.flash-error {
+	margin: 0 auto;
+  width: auto;
+  max-width: 470px;
+	background: #FF4136;
+}
+
+.flash-title {
+	font-size: 20px;
+	font-weight: bold;
+	margin-left: .5em;
+	padding: .5em;
+}
+
+.flash ul {
+	list-style-type: disc;
+	padding-left: 2em;
+	background: cornsilk;
+	border: 5px solid #FF4136;
+}
+
+.flash li {
+	color: #333;
+	margin: 1em;
+}
