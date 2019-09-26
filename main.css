@@ -81,3 +81,126 @@ header .container {
 	color: #333;
 	margin: 1em;
 }
+
+main {
+  width: auto;
+  max-width: 1300px;
+  margin: 50px auto 0;
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.book-cover {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(211, 211, 211, 0.1) 5%, rgba(255, 255, 255, 0.15) 5%, rgba(255, 255, 255, 0.1) 9%, rgba(0, 0, 0, 0.01) 100%);
+  width: 240px;
+  height: 300px;
+	margin: 0 1em 1.5em;
+}
+
+/* Book Cover Colours */
+.light-blue {
+  background-color: #a1cae5;
+}
+
+.pink {
+  background-color: #f6a7a5;
+}
+
+.yellow {
+  background-color: #f8eb48;
+}
+
+.beige {
+  background-color: #f7a56e;
+}
+
+.light-beige {
+  background-color: #ebc989;
+}
+
+.grey {
+  background-color: #a6a1a5;
+}
+
+.light-grey {
+  background-color: #ebe6e5;
+}
+
+.teal {
+  background-color: #4cbb97;
+}
+
+.book-cover {
+	padding: 1.25em;
+}
+
+.cover-info {
+	font-family: "Abril Fatface", serif;
+	color: #64696a;
+	text-align: center;	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.cover-info h2 {
+	font-size: 1.4em;
+	margin-top: 1.25em;
+}
+
+.cover-info span {
+	display: block;
+	font-family: "Lato", sans-serif;
+	font-size: 0.65em;
+	margin-top: 1.5em;
+	text-transform: uppercase;
+	position: relative;
+	font-weight: 300;
+}
+
+.cover-info span:before {
+	position: absolute;
+	top: -10px;
+	left: 40%;
+	width: 20%;
+	height: 1px;
+	background: rgba(0, 0, 0, 0.2);
+	content: "";
+}
+
+.cover-info p {
+	font-size: 0.8em;
+	font-family: "Lato", sans-serif;
+	text-align: left;
+	margin-left: 10px;
+}
+
+.btn {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin: .5rem;
+	cursor: pointer;
+  background: #f0f0f0;
+	border: 2px solid transparent;
+	border-right: 2px solid #979797;
+	border-bottom: 2px solid #979797;
+}
+
+.btn:hover {
+	box-shadow: 0 3px 8px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.08); 
+}
+
+.btn:active {
+	border: 2px solid transparent;
+	border-top: 2px solid #979797;
+	border-left: 2px solid #979797;
+}
+
+.btn img {
+	width: 30px;
+	height: 30px;
+}
