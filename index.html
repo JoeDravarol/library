@@ -63,6 +63,25 @@
     -->
   </main>
 
+  <div class="form-overlay">
+    <form action="">
+        <header>
+          <h2>Add New Book</h2>
+        </header>
+        <input id="title" type="text" placeholder="Title" required>
+        <input id="author" type="text" placeholder="Author" required>
+        <input id="pages" type="number" placeholder="Pages" required>
+      <div class="button-container">
+        <button id="save" class="btn btn-save" type="submit" data-form-operation="save" >
+          Save
+        </button>
+        <button id="cancel" class="btn btn-cancel" type="button" data-form-operation="cancel">
+          Cancel
+        </button>
+      </div>
+      </form>
+  </div>
+
   <button id="open-form" class="btn btn-open-form" type="button">
     <img src="assets/images/plus.svg" alt="Plus icon">
   </button>

@@ -210,7 +210,121 @@ main {
 }
 
 /* Form */
+.form-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background:  rgba(0,0,0,.7);
+	display: none;
+}
 
+form {
+	position: absolute;
+	left: 50%;
+	top: 15%;
+	transform: translate(-50%);
+	background: #0074D9;
+	width: 450px;
+	padding: 20px 35px;
+	border-radius: 8px;
+}
+
+form h2 {
+	font-size: 22px;
+	text-transform: uppercase;
+	margin-bottom: 1em;
+	position: relative;
+}
+
+form h2::after {
+	content: "";
+	position: absolute;
+	bottom: -13px;
+	left: 23%;
+	width: 50%;
+	height: 1px;
+	border-bottom: 1px solid #7FDBFF;
+}
+
+form input,
+form button {
+	display: block;
+	font-family: "Lato", sans-serif;
+	font-size: 18px;
+	width: 100%;
+	margin-bottom: 1em;
+	padding: .75em;
+	border-radius: 5px;
+	border: 4px solid transparent;
+}
+
+form input:focus {
+	border: 4px solid #2ECC40;
+}
+
+form .button-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+form .btn {
+	width: 45%;
+	margin-top: 1em;
+	text-transform: uppercase;
+	color: #0074D9;
+	cursor: pointer;
+	border-radius: 5px;
+	padding: .5em 0;
+}
+
+form .btn::before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: .5em 0;
+	content: "";
+	color: #fff;
+	width: 0;
+	transition: width .3s ease;
+}
+
+form .btn:hover {
+	color: transparent;
+}
+
+.btn-save,
+.btn-save:active {
+	border: 4px solid #2ECC40;
+	position: relative;
+}
+
+.btn-save::before {
+	background: #2ECC40;
+}
+
+.btn-save:hover::before {
+	content: "Save";
+	width: 100%;
+}
+
+.btn-cancel,
+.btn-cancel:active {
+	border: 4px solid #FF4136;
+	position: relative;
+}
+
+.btn-cancel::before {
+	background: #FF4136;
+}
+
+.btn-cancel:hover::before {
+	content: "Cancel";
+	width: 100%;
+}
 
 /* Form modal button */
 .btn-open-form {
