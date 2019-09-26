@@ -96,44 +96,8 @@ main {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(211, 211, 211, 0.1) 5%, rgba(255, 255, 255, 0.15) 5%, rgba(255, 255, 255, 0.1) 9%, rgba(0, 0, 0, 0.01) 100%);
   width: 240px;
   height: 300px;
-	margin: 0 1em 1.5em;
-}
-
-/* Book Cover Colours */
-.light-blue {
-  background-color: #a1cae5;
-}
-
-.pink {
-  background-color: #f6a7a5;
-}
-
-.yellow {
-  background-color: #f8eb48;
-}
-
-.beige {
-  background-color: #f7a56e;
-}
-
-.light-beige {
-  background-color: #ebc989;
-}
-
-.grey {
-  background-color: #a6a1a5;
-}
-
-.light-grey {
-  background-color: #ebe6e5;
-}
-
-.teal {
-  background-color: #4cbb97;
-}
-
-.book-cover {
-	padding: 1.25em;
+  margin: 0 1em 1.5em;
+  padding: 1.25em;
 }
 
 .cover-info {
@@ -244,3 +208,59 @@ main {
 [tooltip]:hover::after,[tooltip]:hover::before {
    opacity: 1;
 }
+
+/* Form */
+
+
+/* Form modal button */
+.btn-open-form {
+	position: absolute;
+	right: 55px;
+	bottom: 35px;
+	background: #0074D9;
+	border: none;
+	width: 55px;
+	height: 55px;
+	opacity: .9;
+	transition: all .3s ease;
+}
+
+.btn-open-form:hover {
+	opacity: 1;
+	transform: rotate(90deg) scale(2);
+}
+
+
+/* Book Cover Colours */
+.light-blue {
+  background-color: #a1cae5;
+}
+
+.pink {
+  background-color: #f6a7a5;
+}
+
+.yellow {
+  background-color: #f8eb48;
+}
+
+.beige {
+  background-color: #f7a56e;
+}
+
+.light-beige {
+  background-color: #ebc989;
+}
+
+.grey {
+  background-color: #a6a1a5;
+}
+
+.light-grey {
+  background-color: #ebe6e5;
+}
+
+.teal {
+  background-color: #4cbb97;
+}
+
