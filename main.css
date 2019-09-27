@@ -337,6 +337,7 @@ form .btn:hover {
 	height: 55px;
 	opacity: .9;
 	transition: all .3s ease;
+	display: block;
 }
 
 .btn-open-form:hover {
