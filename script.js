@@ -24,23 +24,26 @@ const eventHandlers = {
 // Form Modal Button
 eventHandlers.form.modalBtn.addEventListener('click', () => {
   // Display form
-  toggleDisplayProperty(eventHandlers.form.modalBtn)
-  toggleDisplayProperty(eventHandlers.form.modalForm)
+  toggleDisplayProperty(eventHandlers.form.modalBtn, eventHandlers.form.modalForm)
 });
 
 eventHandlers.form.cancelFormBtn.addEventListener('click', () => {
-
-  toggleDisplayProperty(eventHandlers.form.modalForm)
-  toggleDisplayProperty(eventHandlers.form.modalBtn)
+  // Hide Form
+  toggleDisplayProperty(eventHandlers.form.modalBtn, eventHandlers.form.modalForm)
 });
 
 // Toggle display value from block to none and vice versa
-const toggleDisplayProperty = (event) => {
-  const eventDisplayValue = window.getComputedStyle(event).getPropertyValue('display');
+const toggleDisplayProperty = (...events) => {
 
-  if (!eventDisplayValue || eventDisplayValue === "block") {
-    event.style.display = "none";
-  } else {
-    event.style.display = "block";
-  }
+  [...events].forEach((event) => {
+    const eventDisplayValue = window.getComputedStyle(event).getPropertyValue('display');
+
+    // If display is empty
+    if (!eventDisplayValue || eventDisplayValue === "block") {
+      event.style.display = "none";
+    } else {
+      event.style.display = "block";
+    }
+  });
+
 };
