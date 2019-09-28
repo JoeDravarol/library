@@ -169,15 +169,42 @@ const generateReadBtnAttributes = (isRead) => {
   return attributes;
 };
 
-
+const toggleReadStatus = (bookIndex) => {
+  const readStatus = myLibrary[bookIndex].read;
+  myLibrary[bookIndex].read = readStatus === true ? false : true;
+};
 
 document.querySelector('main').addEventListener('click', (e) => {
   let parent, bookIndex;  
+
+  // Read Status button
+  if (e.target.id === "read-status") {
+    parent = e.target.parentNode;
+
+    // While data-index doesn't exist
+    while (!parent.dataset.index) {
+      parent = parent.parentNode;
+    };
+
+    bookIndex = parent.dataset.index;
+
+    toggleReadStatus(bookIndex)
+    
+    let btnAttributes = generateReadBtnAttributes(myLibrary[bookIndex].read)
+    let btnImgElement = e.target.childNodes[1];
+    
+    // Update button & Img tag attributes
+    e.target.attributes.tooltip.value = btnAttributes.tooltip;
+    e.target.dataset.read = myLibrary[bookIndex].read;
+    btnImgElement.attributes.src.value = `./assets/images/${btnAttributes.img}`
+    btnImgElement.attributes.alt.value = btnAttributes.alt;
+  };
 
   // Remove book button
   if (e.target.id === "remove-book") {
     parent = e.target.parentNode;
 
+    // While data-index doesn't exist
     while (!parent.dataset.index) {
       parent = parent.parentNode;
     };
