@@ -378,3 +378,7 @@ form .btn:hover {
 .teal {
   background-color: #4cbb97;
 }
+
+button > * {
+	pointer-events: none;
+}
