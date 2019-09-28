@@ -169,4 +169,25 @@ const generateReadBtnAttributes = (isRead) => {
   return attributes;
 };
 
+
+
+document.querySelector('main').addEventListener('click', (e) => {
+  let parent, bookIndex;  
+
+  // Remove book button
+  if (e.target.id === "remove-book") {
+    parent = e.target.parentNode;
+
+    while (!parent.dataset.index) {
+      parent = parent.parentNode;
+    };
+
+    bookIndex = parent.dataset.index;
+    myLibrary.splice(bookIndex, 1)
+    
+    e.currentTarget.removeChild(parent)
+  };
+
+});
+
 renderLibrary();
