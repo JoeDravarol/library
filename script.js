@@ -1,7 +1,10 @@
-let myLibrary = [];
+let myLibrary = [new Book("The Nature of Lies", "Danny Lin", "123"), new Book("An Introduction to Neural Science", "Christa Hausmann", "200"), new Book("The Play Book", "Rahul Rajendran", "500")];
 const bookColors = ["yellow", "teal", "pink", "beige", "light-blue", "grey", "light-beige", "light-grey"]
 
 const eventHandlers = {
+  library: {
+    mainContainer: document.querySelector('main')
+  },
   form: {
     modalBtn: document.getElementById('open-form'),
     modalForm: document.querySelector('.form-overlay'),
@@ -21,6 +24,7 @@ function addBookToLibrary(title, author, pages) {
   let book = new Book(title, author, pages)
 
   myLibrary.push(book);
+  renderLibrary();
 };
 
 const toggleFormModal = () => {
@@ -73,3 +77,45 @@ document.querySelector('form').addEventListener('submit', (e) => {
   addBookToLibrary(title, author, pages);
   toggleFormModal();
 });
+
+const renderLibrary = () => {
+  const mainContainer = eventHandlers.library.mainContainer;
+  let colorIndex = 0;
+
+  while(mainContainer.firstChild) {
+    mainContainer.removeChild(mainContainer.firstChild);
+  }
+
+  myLibrary.forEach((book, index) => {
+    mainContainer.insertAdjacentHTML("beforeend", `
+      <div class="book-cover ${bookColors[colorIndex]}" data-index="${index}">
+        <div class="cover-info">
+          <h2>
+            ${book.title}
+            <span>${book.author}</span>
+          </h2>
+
+          <div class="btn-container">
+            <button id="read-status" class="btn btn-read" tooltip="Book Not Read" data-read="${book.read}}">
+              <img src="./assets/images/closed-book.svg" alt="Closed book icon">
+            </button>
+
+            <button id="remove-book" class="btn btn-delete" tooltip="Remove Book">
+              <img src="./assets/images/delete.svg" alt="Delete icon">
+            </button>
+          </div>
+
+          <p>${book.pages} pages</p>
+        </div>
+      </div>
+      `);
+      if (colorIndex < bookColors.length - 1) {
+        colorIndex++;
+      } else if (colorIndex === bookColors.length -1) {
+        colorIndex = 0;
+      };
+
+  });
+};
+
+renderLibrary()
