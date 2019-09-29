@@ -22,10 +22,16 @@ function Book(title, author, pages, read = false) {
 };
 
 function addBookToLibrary(title, author, pages) {
-  let book = new Book(title, author, pages)
+  let book = new Book(title, author, pages);
+  let nullIndex = myLibrary.indexOf(null);
 
-  myLibrary.push(book);
-  renderNewBook();
+  if (nullIndex === -1) {
+    myLibrary.push(book);
+    renderNewBook();
+  } else {
+    myLibrary[nullIndex] = book;
+    renderNewBook(nullIndex);
+  };
 };
 
 const toggleFormModal = () => {
@@ -124,9 +130,9 @@ const renderLibrary = () => {
   });
 };
 
-const renderNewBook = () => {
-  const book = myLibrary[myLibrary.length - 1];
-
+const renderNewBook = ( bookIndex = (myLibrary.length - 1) ) => {
+  const book = myLibrary[bookIndex];
+  
   generateBookHTML(book);
   incrementColorIndex();
 };
@@ -196,7 +202,7 @@ document.querySelector('main').addEventListener('click', (e) => {
     const bookElement = findBookElement(e);
     const bookIndex = bookElement.dataset.index;
 
-    myLibrary.splice(bookIndex, 1);
+    myLibrary[bookIndex] = null;
     
     e.currentTarget.removeChild(bookElement);
   };
