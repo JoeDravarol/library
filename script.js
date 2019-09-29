@@ -64,6 +64,30 @@ const clearInputFields = () => {
   });
 };
 
+const generateBookHTML = (book) => {
+
+  eventHandlers.library.mainContainer.insertAdjacentHTML("beforeend", `
+    <div class="book-cover ${bookColors[colorIndex]}" data-index="${myLibrary.indexOf(book)}">
+      <div class="cover-info">
+        <h2>
+          ${book.title}
+          <span>${book.author}</span>
+        </h2>
+
+        <div class="btn-container">
+          ${generateBookReadBtn(book)}
+
+          <button id="remove-book" class="btn btn-delete" tooltip="Remove Book">
+            <img src="./assets/images/delete.svg" alt="Delete icon">
+          </button>
+        </div>
+
+        <p>${book.pages} pages</p>
+      </div>
+    </div>
+  `);
+};
+
 // Events Listener
 // Form Modal Button
 eventHandlers.form.modalBtn.addEventListener('click', () => {
@@ -90,58 +114,21 @@ document.querySelector('form').addEventListener('submit', (e) => {
 const renderLibrary = () => {
   const mainContainer = eventHandlers.library.mainContainer;
 
-  while(mainContainer.firstChild) {
+  while (mainContainer.firstChild) {
     mainContainer.removeChild(mainContainer.firstChild);
-  }
+  };
 
-  myLibrary.forEach((book, index) => {
-    mainContainer.insertAdjacentHTML("beforeend", `
-      <div class="book-cover ${bookColors[colorIndex]}" data-index="${index}">
-        <div class="cover-info">
-          <h2>
-            ${book.title}
-            <span>${book.author}</span>
-          </h2>
-
-          <div class="btn-container">
-            ${generateBookReadBtn(book)}
-
-            <button id="remove-book" class="btn btn-delete" tooltip="Remove Book">
-              <img src="./assets/images/delete.svg" alt="Delete icon">
-            </button>
-          </div>
-
-          <p>${book.pages} pages</p>
-        </div>
-      </div>
-      `);
-      incrementColorIndex();
+  myLibrary.forEach((book) => {
+    generateBookHTML(book);
+    incrementColorIndex();
   });
 };
 
 const renderNewBook = () => {
   const book = myLibrary[myLibrary.length - 1];
-  eventHandlers.library.mainContainer.insertAdjacentHTML("beforeend", `
-      <div class="book-cover ${bookColors[colorIndex]}" data-index="${myLibrary.indexOf(book)}">
-        <div class="cover-info">
-          <h2>
-            ${book.title}
-            <span>${book.author}</span>
-          </h2>
 
-          <div class="btn-container">
-            ${generateBookReadBtn(book)}
-
-            <button id="remove-book" class="btn btn-delete" tooltip="Remove Book">
-              <img src="./assets/images/delete.svg" alt="Delete icon">
-            </button>
-          </div>
-
-          <p>${book.pages} pages</p>
-        </div>
-      </div>
-      `);
-      incrementColorIndex();
+  generateBookHTML(book);
+  incrementColorIndex();
 };
 
 const generateBookReadBtn = (book) => {
