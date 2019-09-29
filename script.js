@@ -33,6 +33,14 @@ const toggleFormModal = () => {
   toggleDisplayProperty(eventHandlers.form.modalBtn, eventHandlers.form.modalForm);
 };
 
+const incrementColorIndex = () => {
+  if (colorIndex < bookColors.length - 1) {
+    colorIndex++;
+  } else if (colorIndex === bookColors.length -1) {
+    colorIndex = 0;
+  };
+};
+
 // Toggle display value from block to none and vice versa
 const toggleDisplayProperty = (...events) => {
 
@@ -107,12 +115,7 @@ const renderLibrary = () => {
         </div>
       </div>
       `);
-      if (colorIndex < bookColors.length - 1) {
-        colorIndex++;
-      } else if (colorIndex === bookColors.length -1) {
-        colorIndex = 0;
-      };
-
+      incrementColorIndex();
   });
 };
 
@@ -138,12 +141,8 @@ const renderNewBook = () => {
         </div>
       </div>
       `);
-      if (colorIndex < bookColors.length - 1) {
-        colorIndex++;
-      } else if (colorIndex === bookColors.length -1) {
-        colorIndex = 0;
-      };
-}
+      incrementColorIndex();
+};
 
 const generateBookReadBtn = (book) => {
   let attributes = generateReadBtnAttributes(book.read)
