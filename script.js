@@ -173,47 +173,46 @@ const toggleReadStatus = (bookIndex) => {
   myLibrary[bookIndex].read = readStatus === true ? false : true;
 };
 
+const findBookElement = (event) => {
+  let parent;
+
+  parent = event.target.parentNode;
+
+  // While data-index doesn't exist
+  while (!parent.dataset.index) {
+    parent = parent.parentNode;
+  };
+
+  return parent;
+};
+
 document.querySelector('main').addEventListener('click', (e) => {
-  let parent, bookIndex;  
 
   // Read Status button
   if (e.target.id === "read-status") {
-    parent = e.target.parentNode;
+    const bookIndex = findBookElement(e).dataset.index;
 
-    // While data-index doesn't exist
-    while (!parent.dataset.index) {
-      parent = parent.parentNode;
-    };
-
-    bookIndex = parent.dataset.index;
-
-    toggleReadStatus(bookIndex)
+    toggleReadStatus(bookIndex);
     
-    let btnAttributes = generateReadBtnAttributes(myLibrary[bookIndex].read)
+    let btnAttributes = generateReadBtnAttributes(myLibrary[bookIndex].read);
     let btnImgElement = e.target.childNodes[1];
     
     // Update button & Img tag attributes
     e.target.attributes.tooltip.value = btnAttributes.tooltip;
     e.target.dataset.read = myLibrary[bookIndex].read;
-    btnImgElement.attributes.src.value = `./assets/images/${btnAttributes.img}`
+    btnImgElement.attributes.src.value = `./assets/images/${btnAttributes.img}`;
     btnImgElement.attributes.alt.value = btnAttributes.alt;
   };
 
   // Remove book button
   if (e.target.id === "remove-book") {
-    parent = e.target.parentNode;
+    const bookElement = findBookElement(e);
+    const bookIndex = bookElement.dataset.index;
 
-    // While data-index doesn't exist
-    while (!parent.dataset.index) {
-      parent = parent.parentNode;
-    };
-
-    bookIndex = parent.dataset.index;
-    myLibrary.splice(bookIndex, 1)
+    myLibrary.splice(bookIndex, 1);
     
-    e.currentTarget.removeChild(parent)
+    e.currentTarget.removeChild(bookElement);
   };
-
 });
 
 renderLibrary();
