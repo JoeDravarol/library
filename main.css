@@ -330,8 +330,8 @@ form .btn:hover {
 .btn-open-form {
 	position: absolute;
 	right: 55px;
-	bottom: 35px;
-	background: #0074D9;
+	top: 35px;
+	background: #2ECC40;
 	border: none;
 	width: 55px;
 	height: 55px;
