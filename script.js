@@ -1,8 +1,6 @@
-// Data
-let myLibrary = [new Book("The Nature of Lies", "Vasily Goveiot", "123"),
-                 new Book("An Introduction to Neural Science", "Christa Hausmann", "200", true),
-                 new Book("The Playbook", "Barney Stinson", "500")];
-let colorIndex = 0;
+/*
+** Data
+*/
 const bookColors = ["yellow", "teal", "pink", "beige", "light-blue", "grey", "light-beige", "light-grey"];
 
 const eventHandlers = {
@@ -17,7 +15,17 @@ const eventHandlers = {
   }
 };
 
-// Scripts
+// Firebase
+const db = firebase.firestore();
+const increment = firebase.firestore.FieldValue.increment(1);
+
+// Document References
+const colorIndexRef = db.doc('libraryData/colorIndex');
+const myLibraryRef = db.doc('libraryData/myLibrary');
+
+/*
+** Scripts
+*/
 function Book(title, author, pages, read = false) {
   this.title = title;
   this.author = author;
@@ -25,25 +33,62 @@ function Book(title, author, pages, read = false) {
   this.read = read;
 };
 
-function addBookToLibrary(title, author, pages) {
+function createBook(title, author, pages) {
   let book = new Book(title, author, pages);
-  let nullIndex = myLibrary.indexOf(null);
 
-  if (nullIndex === -1) {
-    myLibrary.push(book);
-    renderNewBook();
-  } else {
-    myLibrary[nullIndex] = book;
-    renderNewBook(nullIndex);
-  };
+  colorIndexRef.get().then((doc) => {
+    book.colorIndex = doc.data().index;
+  });
+
+  return book;
+};
+
+// Update books array on Firebase
+const updateBooksArray = (booksArray) => {
+
+  const newBooksArray = booksArray.map((value) => {
+    if (value === null) {
+      return value;
+    } else if (typeof value === 'object') {
+      // Firebase can't store pure javascript object
+      // so you have to use object.assign
+      return Object.assign({}, value);
+    };
+  });
+
+  myLibraryRef.update({
+    books: newBooksArray
+  });
+};
+
+function addBookToLibrary(book) {
+  myLibraryRef.get().then((doc) => {
+    let booksArray = doc.data().books;
+
+    const nullIndex = booksArray.indexOf(null);
+
+    if (nullIndex === -1) {
+      book.id = booksArray.length;
+      booksArray.push(book);
+    } else {
+      book.id = nullIndex;
+      booksArray[nullIndex] = book;
+    };
+
+    updateBooksArray(booksArray);
+  });
 };
 
 const incrementColorIndex = () => {
-  if (colorIndex < bookColors.length - 1) {
-    colorIndex++;
-  } else if (colorIndex === bookColors.length - 1) {
-    colorIndex = 0;
-  };
+  colorIndexRef.get().then((doc) => {
+    let colorIndex = doc.data().index;
+
+    if (colorIndex < bookColors.length -1) {
+      colorIndexRef.update({ index: increment });
+    } else {
+      colorIndexRef.update({ index: 0 });
+    };
+  });
 };
 
 // Toggle display value from block to none and vice versa
@@ -88,7 +133,7 @@ const findBookElement = (event) => {
 const generateBookHTML = (book) => {
 
   eventHandlers.library.mainContainer.insertAdjacentHTML("beforeend", `
-    <div class="book-cover ${bookColors[colorIndex]}" data-index="${myLibrary.indexOf(book)}">
+    <div class="book-cover ${bookColors[book.colorIndex]}" data-index="${book.id}">
       <div class="cover-info">
         <h2>
           ${book.title}
@@ -111,22 +156,20 @@ const generateBookHTML = (book) => {
 
 const renderLibrary = () => {
   const mainContainer = eventHandlers.library.mainContainer;
-
+  
   while (mainContainer.firstChild) {
     mainContainer.removeChild(mainContainer.firstChild);
   };
 
-  myLibrary.forEach((book) => {
-    generateBookHTML(book);
-    incrementColorIndex();
+  myLibraryRef.get().then((doc) => {
+    let booksArray = doc.data().books;
+
+    booksArray.forEach((book) => {
+      if (book !== null) {
+        generateBookHTML(book);
+      };
+    });
   });
-};
-
-const renderNewBook = ( bookIndex = (myLibrary.length - 1) ) => {
-  const book = myLibrary[bookIndex];
-
-  generateBookHTML(book);
-  incrementColorIndex();
 };
 
 const generateBookReadBtn = (book) => {
@@ -142,13 +185,13 @@ const generateReadBtnAttributes = (isRead) => {
     tooltip: "Book Not Read",
     img: "closed-book.svg",
     alt: "Closed book icon"
-  }
+  };
 
   if (isRead) {
     attributes.tooltip = "Book Read",
     attributes.img = "open-book.svg",
     attributes.alt = "Open book icon"
-  }
+  };
 
   return attributes;
 };
@@ -159,7 +202,9 @@ const toggleReadStatus = (bookIndex) => {
   myLibrary[bookIndex].read = readStatus === true ? false : true;
 };
 
-// Events Listener
+/*
+** Events Listener
+*/ 
 // Form Modal Button
 eventHandlers.form.modalBtn.addEventListener('click', () => {
   // Display form
@@ -177,7 +222,10 @@ document.querySelector('form').addEventListener('submit', (e) => {
   const title = e.target.title.value;
   const author = e.target.author.value;
   const pages = e.target.pages.value;
-  addBookToLibrary(title, author, pages);
+  let book = createBook(title, author, pages);
+  
+  addBookToLibrary(book);
+  incrementColorIndex();
   toggleFormModal();
 });
 
@@ -211,4 +259,19 @@ document.querySelector('main').addEventListener('click', (e) => {
   };
 });
 
-renderLibrary();
+// Firebase real time listener
+db.collection('libraryData').onSnapshot((snapshot) => {
+  let changes = snapshot.docChanges();
+  
+  for(let change of changes) {
+    if (change.type == 'added') {
+      renderLibrary();
+      break;
+    } else if (change.type == 'modified') {
+        if (change.newIndex !== 0) {
+          renderLibrary();
+        }
+        break;
+    };
+  };
+});
