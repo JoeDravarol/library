@@ -197,9 +197,15 @@ const generateReadBtnAttributes = (isRead) => {
 };
 
 const toggleReadStatus = (bookIndex) => {
-  const readStatus = myLibrary[bookIndex].read;
+  myLibraryRef.get().then((doc) => {
+    let booksArray = doc.data().books;
 
-  myLibrary[bookIndex].read = readStatus === true ? false : true;
+    const readStatus = booksArray[bookIndex].read;
+
+    booksArray[bookIndex].read = readStatus === true ? false : true;
+
+    updateBooksArray(booksArray);
+  });
 };
 
 /*
@@ -238,14 +244,18 @@ document.querySelector('main').addEventListener('click', (e) => {
 
     toggleReadStatus(bookIndex);
 
-    let btnAttributes = generateReadBtnAttributes(myLibrary[bookIndex].read);
-    let btnImgElement = e.target.childNodes[1];
+    myLibraryRef.get().then((doc) => {
+      let booksArray = doc.data().books;
 
-    // Update button & Img tag attributes
-    e.target.attributes.tooltip.value = btnAttributes.tooltip;
-    e.target.dataset.read = myLibrary[bookIndex].read;
-    btnImgElement.attributes.src.value = `./assets/images/${btnAttributes.img}`;
-    btnImgElement.attributes.alt.value = btnAttributes.alt;
+      let btnAttributes = generateReadBtnAttributes(booksArray[bookIndex].read);
+      let btnImgElement = e.target.childNodes[1];
+
+      // Update button & Img tag attributes
+      e.target.attributes.tooltip.value = btnAttributes.tooltip;
+      e.target.dataset.read = booksArray[bookIndex].read;
+      btnImgElement.attributes.src.value = `./assets/images/${btnAttributes.img}`;
+      btnImgElement.attributes.alt.value = btnAttributes.alt;
+    });
   };
 
   // Remove book button
