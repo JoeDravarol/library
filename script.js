@@ -258,14 +258,18 @@ document.querySelector('main').addEventListener('click', (e) => {
     });
   };
 
-  // Remove book button
+  // Remove book button Still need to 
   if (e.target.id === "remove-book") {
     const bookElement = findBookElement(e);
     const bookIndex = bookElement.dataset.index;
 
-    myLibrary[bookIndex] = null;
-    
-    e.currentTarget.removeChild(bookElement);
+    myLibraryRef.get().then((doc) => {
+      let booksArray = doc.data().books;
+      booksArray[bookIndex] = null;
+      updateBooksArray(booksArray);
+
+      e.currentTarget.removeChild(bookElement);
+    });
   };
 });
 
