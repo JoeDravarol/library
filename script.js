@@ -26,12 +26,16 @@ const myLibraryRef = db.doc('libraryData/myLibrary');
 /*
 ** Scripts
 */
-function Book(title, author, pages, read = false) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-};
+
+class Book {
+
+  constructor(title, author, pages, read = false) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
+}
 
 function createBook(title, author, pages) {
   let book = new Book(title, author, pages);
